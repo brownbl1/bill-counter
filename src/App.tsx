@@ -49,7 +49,7 @@ const Items: React.FC<{ items: DenomMap }> = ({ items }) => {
               justifyContent: 'space-between',
             }}
           >
-            <span>{key}s:</span>
+            <span>{key}s</span>
             <span>{val}</span>
           </div>
         ))}
