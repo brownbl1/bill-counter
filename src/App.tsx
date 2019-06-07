@@ -38,11 +38,21 @@ const App: React.FC = () => {
 
 const Items: React.FC<{ items: DenomMap }> = ({ items }) => {
   return (
-    <div style={{ textAlign: 'left' }}>
-      <div>20s: {items[20]}</div>
-      <div>10s: {items[10]}</div>
-      <div>5s: {items[5]}</div>
-      <div>1s: {items[1]}</div>
+    <div style={{ width: '170px' }}>
+      {Object.entries(items)
+        .reverse()
+        .map(([key, val]) => (
+          <div
+            key={key}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>{key}s:</span>
+            <span>{val}</span>
+          </div>
+        ))}
     </div>
   )
 }
