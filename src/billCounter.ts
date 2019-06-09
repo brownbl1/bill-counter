@@ -2,13 +2,12 @@ export type DenomMap = {
   50: number
   20: number
   10: number
-  5: number
   1: number
 }
 
-type Denom = 50 | 20 | 10 | 5 | 1
+type Denom = 50 | 20 | 10 | 1
 
-const denomMap = { 50: 0, 20: 0, 10: 0, 5: 0, 1: 0 }
+const denomMap = { 50: 0, 20: 0, 10: 0, 1: 0 }
 
 const denoms = Object.keys(denomMap)
   .reverse()
