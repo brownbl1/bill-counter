@@ -6,16 +6,18 @@ export type DenomMap = {
   1: number
 }
 
-const getDenom = (amount: number) =>
-  amount >= 50
-    ? 50
-    : amount >= 20
-    ? 20
-    : amount >= 10
-    ? 10
-    : amount >= 5
-    ? 5
-    : 1
+type Denom = 50 | 20 | 10 | 5 | 1
+
+const denomMap = { 50: 0, 20: 0, 10: 0, 5: 0, 1: 0 }
+
+const denoms = Object.keys(denomMap)
+  .reverse()
+  .map(k => parseInt(k))
+
+console.log('denoms', denoms)
+
+const getDenom = (amount: number): Denom =>
+  denoms.find(d => amount >= d) as Denom
 
 const countBills = (totals: DenomMap, amount: number): DenomMap => {
   if (!amount) return totals
@@ -31,4 +33,4 @@ const countBills = (totals: DenomMap, amount: number): DenomMap => {
 }
 
 export const countBillsList = (amounts: number[]) =>
-  amounts.reduce(countBills, { 50: 0, 20: 0, 10: 0, 5: 0, 1: 0 })
+  amounts.reduce(countBills, denomMap)

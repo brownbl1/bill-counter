@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import './App.css'
+import React, { useState, useEffect, useCallback } from 'react'
 import { DenomMap, countBillsList } from './billCounter'
+import { Items } from './Items'
+import './App.css'
 
 const App: React.FC = () => {
-  const [list, setList] = useState('500')
+  const [list, setList] = useState('500,26')
   const [items, setItems] = useState<DenomMap>()
 
   useEffect(() => {
@@ -12,11 +13,10 @@ const App: React.FC = () => {
     setItems(bills)
   }, [list])
 
-  function onChange(value: string) {
-    if (/^(\d+(,\d+)*)?,{0,1}$/.test(value)) {
-      setList(value)
-    }
-  }
+  const onChange = useCallback(
+    (value: string) => /^(\d+(,\d+)*)?,{0,1}$/.test(value) && setList(value),
+    []
+  )
 
   return (
     <div className="App">
@@ -32,27 +32,6 @@ const App: React.FC = () => {
         />
         {items && <Items items={items} />}
       </header>
-    </div>
-  )
-}
-
-const Items: React.FC<{ items: DenomMap }> = ({ items }) => {
-  return (
-    <div style={{ width: '170px' }}>
-      {Object.entries(items)
-        .reverse()
-        .map(([key, val]) => (
-          <div
-            key={key}
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <span>{key}s</span>
-            <span>{val}</span>
-          </div>
-        ))}
     </div>
   )
 }
