@@ -1,4 +1,5 @@
 export type DenomMap = {
+  50: number
   20: number
   10: number
   5: number
@@ -6,7 +7,15 @@ export type DenomMap = {
 }
 
 const getDenom = (amount: number) =>
-  amount >= 20 ? 20 : amount >= 10 ? 10 : amount >= 5 ? 5 : 1
+  amount >= 50
+    ? 50
+    : amount >= 20
+    ? 20
+    : amount >= 10
+    ? 10
+    : amount >= 5
+    ? 5
+    : 1
 
 const countBills = (totals: DenomMap, amount: number): DenomMap => {
   if (!amount) return totals
@@ -22,4 +31,4 @@ const countBills = (totals: DenomMap, amount: number): DenomMap => {
 }
 
 export const countBillsList = (amounts: number[]) =>
-  amounts.reduce(countBills, { 20: 0, 10: 0, 5: 0, 1: 0 })
+  amounts.reduce(countBills, { 50: 0, 20: 0, 10: 0, 5: 0, 1: 0 })
