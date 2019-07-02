@@ -44,27 +44,24 @@ export const withdrawalLists = (
   amounts: number[],
   billCount: number,
   maxWithdrawal: number
-): DenomMap[] => {
-  const bills = countBillsList(amounts)
-
-  const flatBills = Object.entries(bills)
+): DenomMap[] =>
+  Object.entries(countBillsList(amounts))
     .map(([denom, count]) => new Array(count).fill(parseInt(denom)))
     .reduce<number[]>((prev, curr) => [...prev, ...curr], [])
     .sort((a, b) => (a < b ? 1 : -1))
+    .reduce(
+      (list, curr) => {
+        if (
+          count(list[0]) + 1 > billCount ||
+          sum(list[0]) + curr > maxWithdrawal
+        ) {
+          list.unshift({ ...denomMap })
+        }
 
-  const list: DenomMap[] = [{ ...denomMap }]
+        list[0][curr as Denom] += 1
 
-  while (flatBills.length) {
-    const nextNum = flatBills.shift()! as Denom
-    if (
-      count(list[0]) + 1 > billCount ||
-      sum(list[0]) + nextNum > maxWithdrawal
-    ) {
-      list.unshift({ ...denomMap })
-    }
-
-    list[0][nextNum] += 1
-  }
-
-  return list.reverse()
-}
+        return list
+      },
+      [{ ...denomMap }]
+    )
+    .reverse()
